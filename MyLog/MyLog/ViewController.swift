@@ -7,11 +7,22 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController {
+    
+    lazy var managedObjectContext : NSManagedObjectContext? = {
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        if let managedObjectContext = appDelegate.managedObjectContext {
+            return managedObjectContext
+        } else {
+            return nil
+        }
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        println(managedObjectContext)
         // Do any additional setup after loading the view, typically from a nib.
     }
 
