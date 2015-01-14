@@ -32,12 +32,20 @@ class ViewController: UIViewController {
         
         super.viewDidLoad()
         
+        if let moc = self.managedObjectContext {
+            
+            LogItem.createInManagedObjectContext(moc, title: "item 1", text: "the first item")
+            LogItem.createInManagedObjectContext(moc, title: "item 2", text: "the second item")
+            LogItem.createInManagedObjectContext(moc, title: "item 3", text: "the third item")
+        }
+        
+        /*
         println(managedObjectContext)
-        
         let newItem = NSEntityDescription.insertNewObjectForEntityForName("LogItem", inManagedObjectContext: self.managedObjectContext!) as LogItem
-        
         newItem.title = "Wrote core data tuto"
         newItem.itemText = "new tuto about core data"
+        */
+        
        // presentFirstItem()
         // Do any additional setup after loading the view, typically from a nib.
     }
