@@ -19,26 +19,31 @@ class ViewController: UIViewController {
             return nil
         }
     }()
-
+    
+    func presentFirstItem(){
+        let fetchRequest = NSFetchRequest(entityName: "LogItem")
+        if let fetchResult = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [LogItem]{
+            let alert = UIAlertController(title: fetchResult[0].title, message: fetchResult[0].itemText, preferredStyle: .Alert)
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+    }
+    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
         println(managedObjectContext)
         
         let newItem = NSEntityDescription.insertNewObjectForEntityForName("LogItem", inManagedObjectContext: self.managedObjectContext!) as LogItem
         
         newItem.title = "Wrote core data tuto"
         newItem.itemText = "new tuto about core data"
-        presentItemInfo()
+       // presentFirstItem()
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    func presentItemInfo(){
-        let fetchRequest = NSFetchRequest(entityName: "LogItem")
-        if let fetchResult = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [LogItem]{
-            let alert = UIAlertController(title: fetchResult[0].title, message: fetchResult[0].itemText, preferredStyle: .Alert)
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-        
+    override func viewDidAppear(animated: Bool) {
+        presentFirstItem()
     }
 
     override func didReceiveMemoryWarning() {
