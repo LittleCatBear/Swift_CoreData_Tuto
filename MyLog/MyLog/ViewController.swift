@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource {
     
     lazy var managedObjectContext : NSManagedObjectContext? = {
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
@@ -20,6 +20,16 @@ class ViewController: UIViewController {
         }
     }()
     
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("LogCell") as UITableViewCell
+        cell.textLabel?.text = "\(indexPath.row)"
+        return cell
+    }
+    
     func presentFirstItem(){
         let fetchRequest = NSFetchRequest(entityName: "LogItem")
         if let fetchResult = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [LogItem]{
@@ -27,6 +37,8 @@ class ViewController: UIViewController {
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
+    
+    var logTableView = UITableView(frame: CGRectZero, style: .Plain)
     
     override func viewDidLoad() {
         
@@ -38,6 +50,15 @@ class ViewController: UIViewController {
             LogItem.createInManagedObjectContext(moc, title: "item 2", text: "the second item")
             LogItem.createInManagedObjectContext(moc, title: "item 3", text: "the third item")
         }
+        
+        var viewFrame = self.view.frame
+        viewFrame.origin.y += 20
+        viewFrame.size.height -= 20
+        logTableView.frame = viewFrame
+        self.view.addSubview(logTableView)
+        logTableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: "LogCell")
+        logTableView.dataSource = self
+        
         
         /*
         println(managedObjectContext)
