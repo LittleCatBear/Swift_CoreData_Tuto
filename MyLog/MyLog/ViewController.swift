@@ -44,7 +44,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func saveNewItem(title: String){
         
-        var newLogItem = LogItem.createInManagedObjectContext(self.managedObjectContext!, title: title, text: "")
+        var newLogItem = LogItem.createInManagedObjectContext(self.managedObjectContext!, title: title, fullTitle: "full title ok", text: "")
         
         self.fetchLog()
         
