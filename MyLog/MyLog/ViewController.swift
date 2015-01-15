@@ -22,6 +22,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     let addItemAlertViewTag = 0
     let addItemTextAlertViewTag = 1
+    
     func addNewItem(){
         
         var titlePrompt = UIAlertController(title: "enter title", message: "enter text", preferredStyle: .Alert)
@@ -34,11 +35,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         titlePrompt.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
             if let textField = titleTextField{
-                println(textField.text)
+                self.saveNewItem(textField.text)
             }
         }))
         
         self.presentViewController(titlePrompt, animated: true, completion: nil)
+    }
+    
+    func saveNewItem(title: String){
+        
+        var newLogItem = LogItem.createInManagedObjectContext(self.managedObjectContext!, title: title, text: "")
+        
+        self.fetchLog()
+        
+        if let newItemIndex = find(logItems, newLogItem){
+            let newLogItemIndexPath = NSIndexPath(forRow: newItemIndex, inSection: 0)
+            logTableView.insertRowsAtIndexPaths([newLogItemIndexPath], withRowAnimation: .Automatic)
+        }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
