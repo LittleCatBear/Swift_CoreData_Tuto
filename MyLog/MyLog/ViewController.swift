@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     lazy var managedObjectContext : NSManagedObjectContext? = {
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
@@ -21,12 +21,13 @@ class ViewController: UIViewController, UITableViewDataSource {
     }()
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return logItems.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("LogCell") as UITableViewCell
-        cell.textLabel?.text = "\(indexPath.row)"
+        let logItem = logItems[indexPath.row]
+        cell.textLabel?.text = logItem.title
         return cell
     }
     
@@ -39,6 +40,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     var logTableView = UITableView(frame: CGRectZero, style: .Plain)
+    var logItems = [LogItem]()
     
     override func viewDidLoad() {
         
@@ -59,6 +61,7 @@ class ViewController: UIViewController, UITableViewDataSource {
         logTableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: "LogCell")
         logTableView.dataSource = self
         
+        logTableView.delegate = self
         
         /*
         println(managedObjectContext)
@@ -69,10 +72,34 @@ class ViewController: UIViewController, UITableViewDataSource {
         
        // presentFirstItem()
         // Do any additional setup after loading the view, typically from a nib.
+        fetchLog()
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
+        let logItem = logItems[indexPath.row]
+        println(logItem.itemText)
+    }
+    
+    func fetchLog(){
+        let fetchRequest = NSFetchRequest(entityName: "LogItem")
+        let sortDescriptor  = NSSortDescriptor(key: "title", ascending:true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        let predicate = NSPredicate(format: "title == %@", "item 1")
+        
+        let thpredicate = NSPredicate(format: "title contains %@", "em")
+        
+        let finalPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.OrPredicateType, subpredicates: [predicate!, thpredicate!])
+        fetchRequest.predicate = finalPredicate
+        
+        
+        if let fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [LogItem]{
+            logItems = fetchResults
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
-        presentFirstItem()
+       // presentFirstItem()
     }
 
     override func didReceiveMemoryWarning() {
