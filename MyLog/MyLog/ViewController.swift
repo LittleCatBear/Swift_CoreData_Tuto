@@ -80,18 +80,33 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         println(logItem.itemText)
     }
     
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    
+    //needed for swipe to delete action
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if(editingStyle == .Delete){
+            let logItemToDelete = logItems[indexPath.row]
+            
+            managedObjectContext?.deleteObject(logItemToDelete)
+            self.fetchLog()
+            
+            logTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        }
+    }
+    
     func fetchLog(){
         let fetchRequest = NSFetchRequest(entityName: "LogItem")
         let sortDescriptor  = NSSortDescriptor(key: "title", ascending:true)
         fetchRequest.sortDescriptors = [sortDescriptor]
-        
+        /*
         let predicate = NSPredicate(format: "title == %@", "item 1")
-        
         let thpredicate = NSPredicate(format: "title contains %@", "em")
-        
         let finalPredicate = NSCompoundPredicate(type: NSCompoundPredicateType.OrPredicateType, subpredicates: [predicate!, thpredicate!])
         fetchRequest.predicate = finalPredicate
-        
+        */
         
         if let fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [LogItem]{
             logItems = fetchResults
