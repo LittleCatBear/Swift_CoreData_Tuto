@@ -51,6 +51,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if let newItemIndex = find(logItems, newLogItem){
             let newLogItemIndexPath = NSIndexPath(forRow: newItemIndex, inSection: 0)
             logTableView.insertRowsAtIndexPaths([newLogItemIndexPath], withRowAnimation: .Automatic)
+            save()
         }
     }
     
@@ -80,13 +81,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         super.viewDidLoad()
         
+        /*
         if let moc = self.managedObjectContext {
             
             LogItem.createInManagedObjectContext(moc, title: "item 1", text: "the first item")
             LogItem.createInManagedObjectContext(moc, title: "item 2", text: "the second item")
             LogItem.createInManagedObjectContext(moc, title: "item 3", text: "the third item")
         }
-        
+        */
         var viewFrame = self.view.frame
         viewFrame.origin.y += 20
         
@@ -135,6 +137,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.fetchLog()
             
             logTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            save()
         }
     }
     
@@ -151,6 +154,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         if let fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [LogItem]{
             logItems = fetchResults
+        }
+    }
+    
+    func save(){
+        var error : NSError?
+        if managedObjectContext!.save(&error){
+            println(error?.localizedDescription)
         }
     }
     
