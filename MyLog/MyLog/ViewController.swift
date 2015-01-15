@@ -55,7 +55,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         var viewFrame = self.view.frame
         viewFrame.origin.y += 20
-        viewFrame.size.height -= 20
+        
+        let addButton = UIButton(frame: CGRectMake(0, UIScreen.mainScreen().bounds.size.height - 44, UIScreen.mainScreen().bounds.size.width, 44))
+        addButton.setTitle("+", forState: .Normal)
+        addButton.backgroundColor = UIColor(red: 0.5, green: 0.9, blue: 0.5, alpha: 1.0)
+        addButton.addTarget(self, action: "addNewItem", forControlEvents: .TouchUpInside)
+        self.view.addSubview(addButton)
+        
+        viewFrame.size.height -= (20 + addButton.frame.size.height)
         logTableView.frame = viewFrame
         self.view.addSubview(logTableView)
         logTableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: "LogCell")
