@@ -20,6 +20,27 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }()
     
+    let addItemAlertViewTag = 0
+    let addItemTextAlertViewTag = 1
+    func addNewItem(){
+        
+        var titlePrompt = UIAlertController(title: "enter title", message: "enter text", preferredStyle: .Alert)
+        
+        var titleTextField: UITextField?
+        titlePrompt.addTextFieldWithConfigurationHandler{
+            (textField) -> Void in titleTextField = textField
+            textField.placeholder = "Title"
+        }
+        
+        titlePrompt.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+            if let textField = titleTextField{
+                println(textField.text)
+            }
+        }))
+        
+        self.presentViewController(titlePrompt, animated: true, completion: nil)
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return logItems.count
     }
