@@ -40,6 +40,7 @@
 		E337EDCB1A5910A000901AD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E337EDCC1A5910A000901AD3 /* MyLogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogTests.swift; sourceTree = "<group>"; };
 		E337EDD61A5913AF00901AD3 /* LogItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogItem.swift; sourceTree = "<group>"; };
+		E395D2721A675D8C0022753C /* MyLogV2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyLogV2.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -413,6 +414,7 @@
 				E337EDD21A5910A000901AD3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E337EDD31A5910A000901AD3 /* Build configuration list for PBXNativeTarget "MyLogTests" */ = {
 			isa = XCConfigurationList;
@@ -421,6 +423,7 @@
 				E337EDD51A5910A000901AD3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
@@ -428,9 +431,10 @@
 		E337EDB51A59109F00901AD3 /* MyLog.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				E395D2721A675D8C0022753C /* MyLogV2.xcdatamodel */,
 				E337EDB61A59109F00901AD3 /* MyLog.xcdatamodel */,
 			);
-			currentVersion = E337EDB61A59109F00901AD3 /* MyLog.xcdatamodel */;
+			currentVersion = E395D2721A675D8C0022753C /* MyLogV2.xcdatamodel */;
 			path = MyLog.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
